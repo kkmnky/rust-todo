@@ -1,34 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { FC, useState } from 'react'
+import { Box, createTheme, ThemeProvider, Typography } from '@mui/material'
+import { NewTodoPayload, Todo } from './types/todo'
+import TodoForm from './components/TodoForm'
 
-function App() {
-  const [count, setCount] = useState(0)
+const TodoApp: FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([])
+  const createId = () => todos.length + 1
+
+  const onSubmit = async (payload: NewTodoPayload) => {
+    if (!payload.text) return
+    setTodos((prev) => [
+      {
+        id: createId(),
+        text: payload.text,
+        completed: false,
+      },
+      ...prev,
+    ])
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Box
+        sx={{
+          backgroundColor: 'white',
+          borderBottom: '1px solid gray',
+          display: 'flex',
+          alignItems: 'center',
+          position: 'fixed',
+          top: 0,
+          p: 2,
+          width: '100%',
+          height: 80,
+          zIndex: 3,
+        }}
+      >
+        <Typography variant='h1'>Todo App</Typography>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          p: 5,
+          mt: 10,
+        }}
+      >
+        <Box maxWidth={700} width='100%'>
+          <TodoForm onSubmit={onSubmit} />
+        </Box>
+      </Box>
     </>
+  )
+}
+
+const theme = createTheme({
+  typography: {
+    h1: {
+      fontSize: 30,
+    },
+    h2: {
+      fontSize: 20,
+    },
+  },
+})
+
+const App: FC = () => {
+  return (
+    <ThemeProvider theme={theme}>
+      <TodoApp />
+    </ThemeProvider>
   )
 }
 
