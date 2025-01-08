@@ -1,8 +1,6 @@
 {
     "rust-analyzer.linkedProjects": [
-        "./Cargo.toml",
         "./api/Cargo.toml",
-        "./api/Cargo.toml"
     ],
     "prettier.jsxSingleQuote": true,
     "prettier.singleQuote": true
