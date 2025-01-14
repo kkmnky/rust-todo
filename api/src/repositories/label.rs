@@ -52,7 +52,7 @@ impl LabelRepository for LabelRepositoryForDb {
 
         let label = sqlx::query_as::<_, Label>(
             r#"
-                insert into labels ( name ) value ( $1 ) returning *
+                insert into labels ( name ) values ( $1 ) returning *
             "#,
         )
         .bind(name.clone())
