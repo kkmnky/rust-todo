@@ -1,13 +1,4 @@
-import { NewTodoPayload, Todo } from '../../types/todo'
-
-export const getTodoItems = async () => {
-  const res = await fetch('http://localhost:3000/todos')
-  if (!res.ok) {
-    throw new Error('get todo request failed')
-  }
-  const json: Todo[] = await res.json()
-  return json
-}
+import { NewTodoPayload, Todo, UpdateTodoPayload } from '../../types/todo'
 
 export const addTodoItem = async (payload: NewTodoPayload) => {
   const res = await fetch('http://localhost:3000/todos', {
@@ -24,7 +15,16 @@ export const addTodoItem = async (payload: NewTodoPayload) => {
   return json
 }
 
-export const updateTodoItem = async (todo: Todo) => {
+export const getTodoItems = async () => {
+  const res = await fetch('http://localhost:3000/todos')
+  if (!res.ok) {
+    throw new Error('get todo request failed')
+  }
+  const json: Todo[] = await res.json()
+  return json
+}
+
+export const updateTodoItem = async (todo: UpdateTodoPayload) => {
   const { id, ...updateTodo } = todo
   const res = await fetch(`http://localhost:3000/todos/${id}`, {
     method: 'PATCH',
